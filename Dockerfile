@@ -1,12 +1,10 @@
 
 FROM alpine:3.3
 
-ADD *.go /genres-rw-neo4j/
-ADD genres/*.go /genres-rw-neo4j/genres/
+ADD . /genres-rw-neo4j/
 
 RUN apk add --update bash \
-  && apk --update add git bzr \
-  && apk --update add go \
+  && apk --update add git go bzr \
   && cd genres-rw-neo4j \
   && git fetch origin 'refs/tags/*:refs/tags/*' \
   && BUILDINFO_PACKAGE="github.com/Financial-Times/service-status-go/buildinfo." \
@@ -23,6 +21,7 @@ RUN apk add --update bash \
   && mv genres-rw-neo4j/* $GOPATH/src/${REPO_PATH} \
   && cd $GOPATH/src/${REPO_PATH} \
   && go get -t ./... \
+  && echo ${LDFLAGS} \
   && go build -ldflags="${LDFLAGS}" \
   && mv genres-rw-neo4j /app \
   && apk del go git bzr \
