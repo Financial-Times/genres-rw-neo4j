@@ -20,10 +20,10 @@ func NewCypherGenresService(cypherRunner neoutils.CypherRunner, indexManager neo
 
 func (s service) Initialise() error {
 	return neoutils.EnsureConstraints(s.indexManager, map[string]string{
-		"Thing":   "uuid",
-		"Concept": "uuid",
-		"Classification": "uuid",
-		"Genre": "uuid",
+		"Thing":             "uuid",
+		"Concept":           "uuid",
+		"Classification":    "uuid",
+		"Genre":             "uuid",
 		"FactsetIdentifier": "value",
 		"TMEIdentifier":     "value",
 		"UPPIdentifier":     "value"})

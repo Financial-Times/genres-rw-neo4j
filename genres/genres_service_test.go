@@ -10,8 +10,8 @@ import (
 )
 
 const (
-	genreUUID = "12345"
-	newGenreUUID = "123456"
+	genreUUID            = "12345"
+	newGenreUUID         = "123456"
 	tmeID                = "TME_ID"
 	newTmeID             = "NEW_TME_ID"
 	fsetID               = "fset_ID"
