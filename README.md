@@ -52,7 +52,7 @@ Invalid json body input, or uuids that don't match between the path and the body
 Example:
 `curl -XPUT -H "X-Request-Id: 123" -H "Content-Type: application/json" localhost:8080/genres/bba39990-c78d-3629-ae83-808c333c6dbc --data '{"uuid":"bba39990-c78d-3629-ae83-808c333c6dbc","prefLabel":"Obituary", "alternativeIdentifiers":{"TME":["MTE3-U3ViamVjdHM="],"uuids": ["bba39990-c78d-3629-ae83-808c333c6dbc","6a2a0170-6afa-4bcc-b427-430268d2ac50"],"type":"Genre"}}'`
 
-The type field is not currently validated - instead, the Topic Writer writes type Topic and its parent types (Concept and Thing) as labels for the Topic.
+The type field is not currently validated - instead, the Genres Writer writes type Genre and its parent types (Thing, Concept, Classification, Genre) as labels for the Genre.
 
 ### GET
 The internal read should return what got written
