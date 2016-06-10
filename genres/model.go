@@ -8,17 +8,13 @@ type Genre struct {
 }
 
 type alternativeIdentifiers struct {
-	TME               []string `json:"TME,omitempty"`
-	FactsetIdentifier string   `json:"factsetIdentifier,omitempty"`
-	LeiCode           string   `json:"leiCode,omitempty"`
-	UUIDS             []string `json:"uuids"`
+	TME   []string `json:"TME,omitempty"`
+	UUIDS []string `json:"uuids"`
 }
 
 const (
-	factsetIdentifierLabel = "FactsetIdentifier"
-	leiIdentifierLabel     = "LegalEntityIdentifier"
-	tmeIdentifierLabel     = "TMEIdentifier"
-	uppIdentifierLabel     = "UPPIdentifier"
+	tmeIdentifierLabel = "TMEIdentifier"
+	uppIdentifierLabel = "UPPIdentifier"
 )
 
 type GenreLink struct {

@@ -14,8 +14,6 @@ const (
 	newGenreUUID         = "123456"
 	tmeID                = "TME_ID"
 	newTmeID             = "NEW_TME_ID"
-	fsetID               = "fset_ID"
-	leiCodeID            = "leiCode"
 	prefLabel            = "Test"
 	specialCharPrefLabel = "Test 'special chars"
 )
@@ -68,7 +66,7 @@ func TestCreateCompleteGenreWithPropsAndIdentifiers(t *testing.T) {
 	assert := assert.New(t)
 	genresDriver := getGenresCypherDriver(t)
 
-	alternativeIdentifiers := alternativeIdentifiers{TME: []string{tmeID}, UUIDS: []string{genreUUID}, FactsetIdentifier: fsetID, LeiCode: leiCodeID}
+	alternativeIdentifiers := alternativeIdentifiers{TME: []string{tmeID}, UUIDS: []string{genreUUID}}
 	genreToWrite := Genre{UUID: genreUUID, PrefLabel: prefLabel, AlternativeIdentifiers: alternativeIdentifiers}
 
 	assert.NoError(genresDriver.Write(genreToWrite), "Failed to write genre")
@@ -84,7 +82,7 @@ func TestUpdateWillRemovePropertiesAndIdentifiersNoLongerPresent(t *testing.T) {
 	assert := assert.New(t)
 	genresDriver := getGenresCypherDriver(t)
 
-	allAlternativeIdentifiers := alternativeIdentifiers{TME: []string{}, UUIDS: []string{genreUUID}, FactsetIdentifier: fsetID, LeiCode: leiCodeID}
+	allAlternativeIdentifiers := alternativeIdentifiers{TME: []string{}, UUIDS: []string{genreUUID}}
 	genreToWrite := Genre{UUID: genreUUID, PrefLabel: prefLabel, AlternativeIdentifiers: allAlternativeIdentifiers}
 
 	assert.NoError(genresDriver.Write(genreToWrite), "Failed to write genre")
