@@ -20,13 +20,12 @@ func NewCypherGenresService(cypherRunner neoutils.CypherRunner, indexManager neo
 
 func (s service) Initialise() error {
 	return neoutils.EnsureConstraints(s.indexManager, map[string]string{
-		"Thing":             "uuid",
-		"Concept":           "uuid",
-		"Classification":    "uuid",
-		"Genre":             "uuid",
-		"FactsetIdentifier": "value",
-		"TMEIdentifier":     "value",
-		"UPPIdentifier":     "value"})
+		"Thing":          "uuid",
+		"Concept":        "uuid",
+		"Classification": "uuid",
+		"Genre":          "uuid",
+		"TMEIdentifier":  "value",
+		"UPPIdentifier":  "value"})
 }
 
 func (s service) Read(uuid string) (interface{}, bool, error) {
@@ -35,10 +34,8 @@ func (s service) Read(uuid string) (interface{}, bool, error) {
 	query := &neoism.CypherQuery{
 		Statement: `MATCH (n:Genre {uuid:{uuid}})
 OPTIONAL MATCH (upp:UPPIdentifier)-[:IDENTIFIES]->(n)
-OPTIONAL MATCH (fs:FactsetIdentifier)-[:IDENTIFIES]->(n)
 OPTIONAL MATCH (tme:TMEIdentifier)-[:IDENTIFIES]->(n)
-OPTIONAL MATCH (lei:LegalEntityIdentifier)-[:IDENTIFIES]->(n)
-return distinct n.uuid as uuid, n.prefLabel as prefLabel, labels(n) as types, {uuids:collect(distinct upp.value), TME:collect(distinct tme.value), factsetIdentifier:fs.value, leiCode:lei.value} as alternativeIdentifiers`,
+return distinct n.uuid as uuid, n.prefLabel as prefLabel, labels(n) as types, {uuids:collect(distinct upp.value), TME:collect(distinct tme.value)} as alternativeIdentifiers`,
 		Parameters: map[string]interface{}{
 			"uuid": uuid,
 		},
@@ -72,8 +69,8 @@ func (s service) Write(thing interface{}) error {
 		},
 	}
 
-	//create-update node for TOPIC
-	createTopicQuery := &neoism.CypherQuery{
+	//create-update node for Genre
+	createGenreQuery := &neoism.CypherQuery{
 		Statement: `MERGE (n:Thing {uuid: {uuid}})
 					set n={allprops}
 					set n :Concept
@@ -89,19 +86,9 @@ func (s service) Write(thing interface{}) error {
 		},
 	}
 
-	queryBatch := []*neoism.CypherQuery{deletePreviousIdentifiersQuery, createTopicQuery}
+	queryBatch := []*neoism.CypherQuery{deletePreviousIdentifiersQuery, createGenreQuery}
 
 	//ADD all the IDENTIFIER nodes and IDENTIFIES relationships
-	if genre.AlternativeIdentifiers.FactsetIdentifier != "" {
-		factsetIdentifierQuery := createNewIdentifierQuery(genre.UUID, factsetIdentifierLabel, genre.AlternativeIdentifiers.FactsetIdentifier)
-		queryBatch = append(queryBatch, factsetIdentifierQuery)
-	}
-
-	if genre.AlternativeIdentifiers.LeiCode != "" {
-		leiCodeIdentifierQuery := createNewIdentifierQuery(genre.UUID, leiIdentifierLabel, genre.AlternativeIdentifiers.LeiCode)
-		queryBatch = append(queryBatch, leiCodeIdentifierQuery)
-	}
-
 	for _, alternativeUUID := range genre.AlternativeIdentifiers.TME {
 		alternativeIdentifierQuery := createNewIdentifierQuery(genre.UUID, tmeIdentifierLabel, alternativeUUID)
 		queryBatch = append(queryBatch, alternativeIdentifierQuery)
