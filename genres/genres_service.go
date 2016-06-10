@@ -69,8 +69,8 @@ func (s service) Write(thing interface{}) error {
 		},
 	}
 
-	//create-update node for TOPIC
-	createTopicQuery := &neoism.CypherQuery{
+	//create-update node for Genre
+	createGenreQuery := &neoism.CypherQuery{
 		Statement: `MERGE (n:Thing {uuid: {uuid}})
 					set n={allprops}
 					set n :Concept
@@ -86,7 +86,7 @@ func (s service) Write(thing interface{}) error {
 		},
 	}
 
-	queryBatch := []*neoism.CypherQuery{deletePreviousIdentifiersQuery, createTopicQuery}
+	queryBatch := []*neoism.CypherQuery{deletePreviousIdentifiersQuery, createGenreQuery}
 
 	//ADD all the IDENTIFIER nodes and IDENTIFIES relationships
 	for _, alternativeUUID := range genre.AlternativeIdentifiers.TME {
