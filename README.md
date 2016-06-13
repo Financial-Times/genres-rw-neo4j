@@ -39,7 +39,7 @@ NB: the default batchSize is much higher than the throughput the instance data i
 ## Endpoints
 /genres/{uuid}
 ### PUT
-"The only mandatory fields are the uuid, the prefLabel and the alternativeIdentifier uuids (because the uuid is also listed in the alternativeIdentifier uuids list)."
+The only mandatory fields are the uuid, the prefLabel and the alternativeIdentifier uuids (because the uuid is also listed in the alternativeIdentifier uuids list).
 
 Every request results in an attempt to update that genre: unlike with GraphDB there is no check on whether the genre already exists and whether there are any changes between what's there and what's being written. We just do a MERGE which is Neo4j for create if not there, update if it is there.
 
