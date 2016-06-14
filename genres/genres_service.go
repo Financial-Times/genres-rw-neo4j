@@ -121,7 +121,7 @@ func (s service) Delete(uuid string) (bool, error) {
 	clearNode := &neoism.CypherQuery{
 		Statement: `
 			MATCH (s:Thing {uuid: {uuid}})
-			OPTIONAL MATCH (t)<-[iden:IDENTIFIES]-(i:Identifier)
+			OPTIONAL MATCH (s)<-[iden:IDENTIFIES]-(i:Identifier)
 			REMOVE s:Concept
 			REMOVE s:Classification
 			REMOVE s:Genre
