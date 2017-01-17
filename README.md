@@ -1,4 +1,4 @@
-# Genres Reader/Writer for Neo4j (genres-rw-neo4j)
+# Genres Reader/Writer for Neo4j (genres-rw-neo4j) 
 [![Circle CI](https://circleci.com/gh/Financial-Times/genres-rw-neo4j/tree/master.png?style=shield)](https://circleci.com/gh/Financial-Times/genres-rw-neo4j/tree/master)
 
 __An API for reading/writing genres into Neo4j. Expects the genres json supplied to be in the format that comes out of the genres transformer.__
