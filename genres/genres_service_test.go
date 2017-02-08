@@ -9,6 +9,7 @@ import (
 	"github.com/jmcvetta/neoism"
 	"encoding/json"
 	"fmt"
+	"sort"
 )
 
 const (
@@ -177,8 +178,15 @@ func TestCount(t *testing.T) {
 }
 
 func readGenreForUUIDAndCheckFieldsMatch(t *testing.T, genresDriver service, uuid string, expectedGenre Genre) {
+	genre, found, err := genresDriver.Read(uuid)
+	sort.Strings(expectedGenre.Types)
+	sort.Strings(expectedGenre.AlternativeIdentifiers.TME)
+	sort.Strings(expectedGenre.AlternativeIdentifiers.UUIDS)
 
-	storedGenre, found, err := genresDriver.Read(uuid)
+	storedGenre := genre.(Genre)
+	sort.Strings(storedGenre.Types)
+	sort.Strings(storedGenre.AlternativeIdentifiers.TME)
+	sort.Strings(storedGenre.AlternativeIdentifiers.UUIDS)
 
 	assert.NoError(t, err, "Error finding genre for uuid %s", uuid)
 	assert.True(t, found, "Didn't find genre for uuid %s", uuid)
